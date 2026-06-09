@@ -14,6 +14,7 @@ export default function Billets() {
 
     useEffect(() => {
         const fetchBillets = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
                 router.push('/auth/login?redirect=/billets');
                 return;
