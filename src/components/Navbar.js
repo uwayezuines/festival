@@ -1,88 +1,76 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { TABS } from '@/data/festicoData';
 import { Menu, X } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Navbar() {
+    const pathname = usePathname();
     const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
-        <header className="sticky top-0 z-50 bg-[#09090b]/95 backdrop-blur-md border-b border-slate-800/50">
+        <header className="sticky top-0 z-50 bg-[#09090b]/95 backdrop-blur-md border-b border-slate-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform">
-                            <span className="text-black font-black text-lg">F</span>
-                        </div>
+                <div className="flex items-center justify-between h-20">
+                    {/* LOGO */}
+                    <Link href="/" className="flex items-center gap-3 shrink-0 group">
+                        <img src="/logo.png" alt="FESTICO Logo" className="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(245,158,11,0.3)] group-hover:scale-110 transition-transform" />
                         <div className="hidden sm:block">
-                            <span className="text-white font-black text-lg leading-none block">FESTICO</span>
-                            <span className="text-slate-500 text-xs">Festival International</span>
+                            <span className="text-white font-black text-xl leading-none block tracking-wide">FESTICO</span>
+                            <span className="text-slate-500 text-[10px] uppercase font-bold tracking-widest">Festival</span>
                         </div>
                     </Link>
 
-                    {/* Desktop links */}
-                    <nav className="hidden md:flex items-center gap-1">
-                        <a
-                            href="https://www.facebook.com/Festico237"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-4 py-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-xl transition-all text-sm font-medium flex items-center gap-2"
-                        >
-                            <span>📘</span> Facebook
-                        </a>
-                        <a
-                            href="mailto:festico237@gmail.com"
-                            className="px-4 py-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-xl transition-all text-sm font-medium flex items-center gap-2"
-                        >
-                            <span>✉️</span> Contact
-                        </a>
-                        <a
-                            href="tel:+237677867557"
-                            className="ml-2 bg-amber-400 hover:bg-amber-300 text-black font-bold px-4 py-2 rounded-xl transition-all text-sm flex items-center gap-2 shadow-lg shadow-amber-500/20"
-                        >
-                            <span>📞</span> Nous appeler
-                        </a>
+                    {/* DESKTOP TABS */}
+                    <nav className="hidden md:flex items-center gap-2">
+                        {TABS.map(tab => {
+                            const isActive = pathname === tab.href;
+                            return (
+                                <Link
+                                    key={tab.id}
+                                    href={tab.href}
+                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${isActive
+                                            ? 'bg-amber-400 text-black shadow-lg shadow-amber-500/20 scale-105'
+                                            : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                                        }`}
+                                >
+                                    <span className="text-lg">{tab.emoji}</span>
+                                    <span>{tab.label}</span>
+                                </Link>
+                            );
+                        })}
                     </nav>
 
-                    {/* Mobile menu button */}
+                    {/* MOBILE BUTTON */}
                     <button
-                        className="md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all"
+                        className="md:hidden p-2 text-amber-400"
                         onClick={() => setMobileOpen(!mobileOpen)}
-                        aria-label="Menu"
                     >
-                        {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+                        {mobileOpen ? <X size={28} /> : <Menu size={28} />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile menu */}
+            {/* MOBILE MENU */}
             {mobileOpen && (
-                <div className="md:hidden border-t border-slate-800 bg-[#09090b] px-4 py-4 space-y-2">
-                    <a
-                        href="https://www.facebook.com/Festico237"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-slate-900 transition-all"
-                        onClick={() => setMobileOpen(false)}
-                    >
-                        <span>📘</span> Facebook
-                    </a>
-                    <a
-                        href="mailto:festico237@gmail.com"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-slate-900 transition-all"
-                        onClick={() => setMobileOpen(false)}
-                    >
-                        <span>✉️</span> Contact par email
-                    </a>
-                    <a
-                        href="tel:+237677867557"
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-400/10 text-amber-400 font-bold border border-amber-400/20 hover:bg-amber-400 hover:text-black transition-all"
-                        onClick={() => setMobileOpen(false)}
-                    >
-                        <span>📞</span> (+237) 677 86 75 57
-                    </a>
+                <div className="md:hidden bg-[#09090b] border-t border-slate-800 p-4 space-y-2 absolute w-full shadow-2xl">
+                    {TABS.map(tab => {
+                        const isActive = pathname === tab.href;
+                        return (
+                            <Link
+                                key={tab.id}
+                                href={tab.href}
+                                onClick={() => setMobileOpen(false)}
+                                className={`flex items-center gap-4 px-4 py-4 rounded-xl text-lg font-bold transition-all ${isActive ? 'bg-amber-400 text-black' : 'text-slate-300 hover:bg-slate-900'
+                                    }`}
+                            >
+                                <span className="text-2xl">{tab.emoji}</span>
+                                <span>{tab.label}</span>
+                            </Link>
+                        );
+                    })}
                 </div>
             )}
         </header>

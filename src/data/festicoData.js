@@ -2,12 +2,12 @@
 
 // === NAVIGATION ===
 export const TABS = [
-    { id: 'accueil', label: 'Accueil', emoji: '🏠' },
-    { id: 'essence', label: "L'Essence", emoji: '💡' },
-    { id: 'bienfaits', label: 'Bienfaits du Rire', emoji: '😄' },
-    { id: 'partenaires', label: 'Partenaires', emoji: '🤝' },
-    { id: 'contacts', label: 'Contacts & Équipe', emoji: '📞' },
-    { id: 'edition2026', label: '14e Édition', emoji: '🎭' },
+    { id: 'accueil', href: '/accueil', label: 'Accueil', emoji: '🏠' },
+    { id: 'essence', href: '/essence', label: "L'Essence", emoji: '💡' },
+    { id: 'bienfaits', href: '/bienfaits', label: 'Bienfaits', emoji: '😄' },
+    { id: 'partenaires', href: '/partenaires', label: 'Partenaires', emoji: '🤝' },
+    { id: 'contacts', href: '/contacts', label: 'Contacts', emoji: '📞' },
+    { id: 'edition2026', href: '/edition2026', label: '14e Édition', emoji: '🎭' },
 ];
 
 // === ONGLET 1 : ACCUEIL ===
@@ -15,7 +15,38 @@ export const TEXTE_ACCUEIL = `FESTICO est le Festival International des Images C
 
 Face aux crises du monde actuel, FESTICO place l'humain au centre en se rassemblant pour partager des moments de légèreté et de joie. À ce jour, il s'impose comme la seule plateforme d'envergure dédiée exclusivement au genre humoristique en Afrique au sud du Sahara.`;
 
-export const YOUTUBE_EMBED_URL = 'https://www.youtube.com/embed/dQw4w9WgXcQ'; // Remplacer par l'URL de l'hymne officiel
+export const YOUTUBE_EMBED_URL = 'https://www.youtube.com/embed/CxoNxjQTUR4';
+
+// === PHOTOS CAROUSEL ===
+export const CAROUSEL_PHOTOS = [
+    "/photo/1743287608432.jpg",
+    "/photo/1773309802298.jpg",
+    "/photo/1773839347357.jpg",
+    "/photo/1773914045490.jpg",
+    "/photo/1774041414723.jpg",
+    "/photo/1774186817986.jpg",
+    "/photo/1781029958313.jpg",
+    "/photo/1781029984154.jpg",
+    "/photo/1781030011490.jpg",
+    "/photo/1781030041449.jpg",
+    "/photo/1781030060338.jpg",
+    "/photo/1781030097441.jpg",
+    "/photo/1781030135350.jpg",
+    "/photo/1781030161013.jpg",
+    "/photo/1781030189567.jpg",
+    "/photo/1781030214242.jpg",
+    "/photo/1781030243507.jpg",
+    "/photo/1781030265003.jpg",
+    "/photo/1781030299772.jpg",
+    "/photo/IMG_20260609_192427_687.jpg",
+    "/photo/IMG_20260609_192504_942.jpg",
+    "/photo/IMG_20260609_192537_562.jpg",
+    "/photo/IMG_20260609_192655_750.jpg",
+    "/photo/IMG_20260609_192930_476.jpg",
+    "/photo/IMG_20260609_193023_211.jpg",
+    "/photo/IMG_20260609_193045_939.jpg",
+    "/photo/PXL_20240625_190521877.NIGHT.jpg"
+];
 
 // === ONGLET 2 : L'ESSENCE ===
 export const ESSENCE_ITEMS = [
