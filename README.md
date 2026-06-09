@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎭 FESTICO 2026 — Plateforme Officielle
 
-## Getting Started
+Plateforme web officielle du **Festival International de la Comédie** (FESTICO) 2026. Elle permet la réservation de billets, la soumission de candidatures (projets & Miss FESTICO), et la gestion administrative complète de l'événement.
 
-First, run the development server:
+---
+
+## 🚀 Technologies utilisées
+
+| Technologie | Rôle |
+|---|---|
+| **Next.js 14** (App Router) | Framework React principal |
+| **Supabase** | Base de données PostgreSQL + Auth + Storage |
+| **Tailwind CSS** | Style et mise en page |
+| **Lucide React** | Icônes |
+| **qrcode.react** | Génération des QR codes des billets |
+
+---
+
+## ✨ Fonctionnalités
+
+### 👤 Espace Visiteur
+- Consultation des événements et des artistes
+- Inscription et connexion sécurisées
+- Réservation de billets (événements gratuits et payants)
+- Génération automatique de QR codes pour chaque billet
+- Soumission de projets (Film, Humour, Miss FESTICO)
+
+### 🔐 Espace Admin (`/admin/dashboard`)
+- **Accessible uniquement** depuis "Mon Espace" si votre compte a le rôle `admin`
+- Gestion des événements (publication / masquage, places)
+- Suivi des ventes et des commandes
+- Validation / rejet des candidatures de projets
+- Gestion des candidates Miss FESTICO (avec photos)
+- Scanner de billets QR (outil de guichet)
+
+---
+
+## 🛠️ Installation locale
+
+### Prérequis
+- Node.js ≥ 18
+- Un compte [Supabase](https://supabase.com) (gratuit)
+
+### Étapes
 
 ```bash
+# 1. Cloner le dépôt
+git clone https://github.com/uwayezuines/festival.git
+cd festival
+
+# 2. Installer les dépendances
+npm install
+
+# 3. Configurer les variables d'environnement
+# Créez un fichier .env.local avec:
+# NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhb...
+
+# 4. Démarrer le serveur de développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Configuration Supabase
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Créez un projet sur [supabase.com](https://supabase.com)
+2. Dans **SQL Editor**, exécutez le fichier `schema_and_seed.sql` (tables + données de démo)
+3. Ensuite, exécutez `supabase_fix_rls.sql` pour les politiques de sécurité (RLS)
+4. Copiez votre **URL** et **clé anon** dans `.env.local`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🗄️ Structure de la base de données
 
-To learn more about Next.js, take a look at the following resources:
+```
+utilisateurs           → Profils liés à auth.users (rôle: admin | visiteur)
+evenements             → Événements du festival
+artistes_realisateurs  → Artistes, candidats projets et Miss FESTICO
+commandes              → Réservations utilisateurs
+billets                → Billets QR générés après paiement
+paiements              → Traces de paiements Mobile Money
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💳 Paiement
 
-## Deploy on Vercel
+Actuellement, le paiement fonctionne en mode **simulation** (démonstration).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Pour activer un vrai paiement Mobile Money (MTN / Orange Money) au Cameroun, intégrez l'API **[Campay](https://campay.net)** ou **CinetPay**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📁 Structure du projet
+
+```
+src/
+├── app/
+│   ├── page.js                     → Page d'accueil
+│   ├── evenements/page.js          → Liste des événements
+│   ├── checkout/[id]/page.js       → Processus de réservation
+│   ├── billets/page.js             → Mon Espace (billets + lien admin)
+│   ├── soumettre-un-projet/page.js → Formulaire de candidature
+│   ├── admin/dashboard/page.js     → Tableau de bord administrateur
+│   └── auth/                       → Login / Inscription
+├── components/
+│   ├── Navbar.js
+│   └── Footer.js
+└── lib/
+    └── supabase.js
+```
+
+---
+
+## 👑 Accès administrateur
+
+Pour accéder au Dashboard Admin :
+
+1. Connectez-vous avec un compte enregistré
+2. Dans Supabase → **Table Editor** → `utilisateurs` → Changez le `role` de votre utilisateur à `admin`
+3. Revenez sur **/billets** (Mon Espace) → Le bouton "Accéder au Dashboard Admin" apparaîtra
+
+---
+
+## 🎯 À propos du FESTICO
+
+Le **Festival International de la Comédie (FESTICO)** est un événement culturel majeur qui célèbre l'humour africain, le cinéma comique et la beauté. Il réunit chaque année des comédiens, réalisateurs et candidates Miss venus de toute l'Afrique et de la diaspora.
+
+---
+
+## 📄 Licence
+
+Ce projet est développé pour l'organisation FESTICO. Tous droits réservés.

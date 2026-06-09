@@ -101,7 +101,7 @@ export default function Billets() {
                                     <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-[#09090b] rounded-full border-t-2 border-slate-800"></div>
 
                                     <div className="bg-white p-2 rounded-xl mb-4 group-hover:scale-105 transition-transform">
-                                        <QRCodeSVG value={b.code_qr} size={100} />
+                                        <QRCodeSVG value={`Billet FESTICO 2026 | Event: ${b.evenements?.titre} | Code: ${b.code_qr}`} size={100} />
                                     </div>
                                     <p className="text-slate-500 text-xs font-mono break-all text-center">{b.code_qr}</p>
                                 </div>

@@ -135,7 +135,10 @@ ALTER TABLE public.paiements ENABLE ROW LEVEL SECURITY;
 
 -- Autoriser la lecture publique de l'équipe et des events
 CREATE POLICY "Lecture publique événements" ON public.evenements FOR SELECT USING (true);
+CREATE POLICY "Mise a jour places événements" ON public.evenements FOR UPDATE USING (true);
+
 CREATE POLICY "Lecture publique artistes" ON public.artistes_realisateurs FOR SELECT USING (true);
+CREATE POLICY "Insert publique artistes" ON public.artistes_realisateurs FOR INSERT WITH CHECK (true);
 
 -- Utilisateurs: l'utilisateur modifie/lit sa propre ligne
 CREATE POLICY "Lecture propre utilisateur" ON public.utilisateurs FOR SELECT USING (auth.uid() = id);
@@ -166,3 +169,17 @@ CREATE POLICY "Billets All" ON public.billets FOR ALL USING (true);
 -- ALTER TABLE public.paiements DISABLE ROW LEVEL SECURITY;
 -- ALTER TABLE public.utilisateurs DISABLE ROW LEVEL SECURITY;
 -- ALTER TABLE public.evenements DISABLE ROW LEVEL SECURITY;
+
+-- ========== 4. CONFIGURATION STORAGE (BUCKET pour images Miss) ==========
+-- Créer le bucket 'candidatures' pour l'upload des photos Miss.
+-- IMPORTANT: Exécuter ce bloc dans le SQL Editor de Supabase.
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('candidatures', 'candidatures', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Permettre à tous de lire les images (public)
+CREATE POLICY "Public Read Candidatures" ON storage.objects FOR SELECT USING (bucket_id = 'candidatures');
+
+-- Permettre à tous d'uploader des fichiers
+CREATE POLICY "Public Upload Candidatures" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'candidatures');
+

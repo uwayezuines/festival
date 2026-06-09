@@ -70,7 +70,10 @@ export default function AdminDashboard() {
         e.preventDefault();
         if (!scanCode.trim()) return;
 
-        const { data: billet } = await supabase.from('billets').select('*, evenements(titre)').eq('code_qr', scanCode).single();
+        const extractedMatch = scanCode.match(/FESTICO-[A-Z0-9-]+/);
+        const codeToSearch = extractedMatch ? extractedMatch[0] : scanCode.trim();
+
+        const { data: billet } = await supabase.from('billets').select('*, evenements(titre)').eq('code_qr', codeToSearch).single();
 
         if (!billet) {
             setScanResult({ type: 'error', message: 'Billet introuvable dans le système.' });

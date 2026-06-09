@@ -11,7 +11,7 @@ export default function SoumettreProjet() {
         titre: '',
         synopsis: '',
         lien_video: '',
-        photo_url: '',
+        fichier_photo: null,
         message_prive: '',
         categorie: 'Candidat Film'
     });
@@ -25,14 +25,45 @@ export default function SoumettreProjet() {
         setLoading(true);
         setError(null);
 
-        // Format the "biographie" field to combine title, synopsis and link
-        const biographieCompilee = `TITRE: ${formData.titre}\n\nSYNOPSIS:\n${formData.synopsis}\n\nLIEN VIDÉO: ${formData.lien_video}`;
+        let finalPhotoUrl = null;
+
+        // Si c'est une candidate Miss, on upload sa photo dans Supabase Storage (optionnel si bucket non créé, on gère l'erreur)
+        if (formData.categorie === 'Candidate Miss' && formData.fichier_photo) {
+            const file = formData.fichier_photo;
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            // On tente l'upload dans le bucket "candidatures" (S'il n'existe pas, ça renverra une erreur, on peut aussi l'encoder en base64 pour être plus robuste si le bucket n'est pas configuré, mais l'upload storage est plus clean)
+            const { error: uploadError, data } = await supabase.storage
+                .from('candidatures')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                console.error("Erreur d'upload. Assurez-vous d'avoir créé le bucket public 'candidatures' :", uploadError);
+                // Fallback de secours: si l'upload échoue, on continue mais sans image, ou on bloque. Pour la demo, on bloque.
+                setError("Erreur de téléchargement d'image. Avez-vous créé le bucket 'candidatures' sur Supabase ?");
+                setLoading(false);
+                return;
+            }
+
+            const { data: publicUrlData } = supabase.storage.from('candidatures').getPublicUrl(filePath);
+            finalPhotoUrl = publicUrlData.publicUrl;
+        }
+
+        let biographieCompilee = "";
+        if (formData.categorie === 'Candidate Miss') {
+            biographieCompilee = `PRÉSENTATION: ${formData.synopsis}\n\nCONTACT: ${formData.pays}\n\nMESSAGE PRIVÉ: ${formData.message_prive}`;
+        } else {
+            biographieCompilee = `TITRE: ${formData.titre}\n\nSYNOPSIS:\n${formData.synopsis}\n\nLIEN VIDÉO: ${formData.lien_video}\n\nMESSAGE PRIVÉ: ${formData.message_prive}`;
+        }
 
         const { error: insertError } = await supabase.from('artistes_realisateurs').insert([{
             nom: formData.nom,
             pays: formData.pays,
             type: formData.categorie,
-            biographie: biographieCompilee
+            biographie: biographieCompilee,
+            photo_url: finalPhotoUrl
         }]);
 
         if (insertError) {
@@ -40,7 +71,7 @@ export default function SoumettreProjet() {
         } else {
             setSuccess(true);
             setFormData({
-                nom: '', pays: '', titre: '', synopsis: '', lien_video: '', photo_url: '', message_prive: '', categorie: 'Candidat Film'
+                nom: '', pays: '', titre: '', synopsis: '', lien_video: '', fichier_photo: null, message_prive: '', categorie: 'Candidat Film'
             });
         }
 
@@ -49,7 +80,6 @@ export default function SoumettreProjet() {
 
     return (
         <div className="min-h-screen bg-[#09090b] py-20 relative overflow-hidden">
-            {/* Background decorations */}
             <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[150px] -translate-y-1/2 -translate-x-1/4 pointer-events-none"></div>
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
@@ -87,7 +117,6 @@ export default function SoumettreProjet() {
                         )}
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                            {/* Category selector visually distinct */}
                             <div className="md:col-span-2 mb-4">
                                 <label className="block text-sm font-bold text-slate-300 mb-3">Type de Projet</label>
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -119,7 +148,7 @@ export default function SoumettreProjet() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-400 mb-2">Nom / Réalisateur</label>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Nom / Candidat</label>
                                 <input
                                     type="text" required
                                     value={formData.nom} onChange={e => setFormData({ ...formData, nom: e.target.value })}
@@ -164,18 +193,24 @@ export default function SoumettreProjet() {
 
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-slate-400 mb-2">
-                                    {formData.categorie === 'Candidate Miss' ? 'URL de votre Photo (obligatoire)' : 'Lien Vidéo (YouTube / Vimeo / Drive)'}
+                                    {formData.categorie === 'Candidate Miss' ? 'Sélectionnez une Photo de vous (obligatoire)' : 'Lien Vidéo (YouTube / Vimeo / Drive)'}
                                 </label>
-                                <input
-                                    type="url" required
-                                    value={formData.categorie === 'Candidate Miss' ? formData.photo_url : formData.lien_video}
-                                    onChange={e => formData.categorie === 'Candidate Miss' ? setFormData({ ...formData, photo_url: e.target.value }) : setFormData({ ...formData, lien_video: e.target.value })}
-                                    className="w-full bg-[#09090b] border border-slate-700 focus:border-amber-500 rounded-xl px-4 py-3 text-white focus:outline-none transition-all"
-                                    placeholder="https://..."
-                                />
-                                <p className="text-xs text-slate-500 mt-2">
-                                    {formData.categorie === 'Candidate Miss' ? "L'image sera visible par l'admin après validation." : "Le lien doit être accessible ou posséder un mot de passe."}
-                                </p>
+                                {formData.categorie === 'Candidate Miss' ? (
+                                    <input
+                                        type="file" required
+                                        accept="image/png, image/jpeg, image/jpg"
+                                        onChange={e => setFormData({ ...formData, fichier_photo: e.target.files[0] })}
+                                        className="w-full bg-[#09090b] border border-slate-700 focus:border-amber-500 rounded-xl px-4 py-3 text-white focus:outline-none transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-500/10 file:text-amber-500 hover:file:bg-amber-500/20"
+                                    />
+                                ) : (
+                                    <input
+                                        type="url" required
+                                        value={formData.lien_video}
+                                        onChange={e => setFormData({ ...formData, lien_video: e.target.value })}
+                                        className="w-full bg-[#09090b] border border-slate-700 focus:border-amber-500 rounded-xl px-4 py-3 text-white focus:outline-none transition-all"
+                                        placeholder="https://..."
+                                    />
+                                )}
                             </div>
 
                             <div className="md:col-span-2 mt-4 bg-black/30 p-6 rounded-2xl border border-dashed border-slate-800">
