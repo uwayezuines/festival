@@ -4,7 +4,7 @@ import { EDITION_INFO, ACTIVITES } from '@/data/festicoData';
 
 // Images assigned to specific sections to "fill the zones"
 const HERO_PHOTO = "/14 édition/IMG-20260604-WA0052.jpg";
-const MISS_PHOTO = "/14 édition/IMG-20260609-WA0047.jpg";
+const MISS_PHOTO = "/14 édition/miss festico.jpg";
 
 const ID_PHOTOS = [
     "/14 édition/IMG-20260609-WA0060.jpg",
