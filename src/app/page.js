@@ -36,11 +36,7 @@ export default function LandingPage() {
               Des Images Comiques
             </span>
           </h1>
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
-            <span className="bg-slate-900 text-slate-400 px-4 py-1.5 rounded-full border border-slate-800 text-sm">📅 23–27 Juin 2026</span>
-            <span className="bg-slate-900 text-slate-400 px-4 py-1.5 rounded-full border border-slate-800 text-sm">📍 Yaoundé, Cameroun</span>
-            <span className="bg-amber-400/10 text-amber-400 border border-amber-400/20 px-4 py-1.5 rounded-full text-sm font-bold">🎭 14ème Édition</span>
-          </div>
+
           <div className="mt-12">
             <Link href="/accueil" className="inline-block bg-amber-400 hover:bg-amber-300 text-black font-black text-lg py-4 px-12 rounded-full transition-all shadow-[0_0_25px_rgba(245,158,11,0.3)] hover:shadow-[0_0_40px_rgba(245,158,11,0.5)] hover:-translate-y-1">
               Entrer dans le Festival →
