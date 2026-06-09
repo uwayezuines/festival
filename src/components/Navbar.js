@@ -1,117 +1,90 @@
-"use client";
+'use client';
+
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase';
-import { useEffect, useState } from 'react';
-import { LogOut, User, Ticket, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
-    const [user, setUser] = useState(null);
-    const [role, setRole] = useState(null);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-    useEffect(() => {
-        const checkUser = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                setUser(session.user);
-                const { data: dbUser } = await supabase.from('utilisateurs').select('role').eq('id', session.user.id).single();
-                if (dbUser) {
-                    setRole(dbUser.role);
-                }
-            }
-        };
-        checkUser();
-
-        const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (session) {
-                setUser(session.user);
-                const { data: dbUser } = await supabase.from('utilisateurs').select('role').eq('id', session.user.id).single();
-                if (dbUser) {
-                    setRole(dbUser.role);
-                }
-            } else {
-                setUser(null);
-                setRole(null);
-            }
-        });
-
-        return () => {
-            authListener.subscription.unsubscribe();
-        };
-    }, []);
-
-    const handleLogout = async () => {
-        await supabase.auth.signOut();
-    };
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
-        <nav className="bg-[#09090b] text-slate-200 border-b border-slate-800 sticky top-0 z-50">
+        <header className="sticky top-0 z-50 bg-[#09090b]/95 backdrop-blur-md border-b border-slate-800/50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    <div className="flex items-center">
-                        <Link href="/" className="flex-shrink-0 flex items-center gap-3">
-                            <img src="/logo.png" alt="FESTICO Logo" className="h-10" />
-                            <span className="font-black text-2xl tracking-tighter text-amber-500 hidden sm:block">
-                                FESTICO
-                            </span>
-                        </Link>
-                    </div>
-                    {/* Desktop Menu */}
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-6">
-                            <Link href="/" className="hover:text-amber-500 font-medium transition-colors">Accueil</Link>
-                            <Link href="/evenements" className="hover:text-amber-500 font-medium transition-colors">Événements</Link>
-                            {user ? (
-                                <>
-                                    <Link href="/billets" className="hover:text-amber-500 flex items-center gap-1 font-medium transition-colors"><Ticket size={18} /> Mon Espace</Link>
-                                    <button onClick={handleLogout} className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-full transition-all">
-                                        <LogOut size={16} /> Déconnexion
-                                    </button>
-                                </>
-                            ) : (
-                                <div className="flex items-center space-x-4">
-                                    <Link href="/auth/login" className="hover:text-amber-500 font-medium transition-colors">Connexion</Link>
-                                    <Link href="/auth/signup" className="bg-amber-500 hover:bg-amber-600 px-5 py-2 rounded-full text-black font-bold transition-all shadow-lg shadow-amber-500/20">Inscription</Link>
-                                </div>
-                            )}
+                <div className="flex items-center justify-between h-16">
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform">
+                            <span className="text-black font-black text-lg">F</span>
                         </div>
-                    </div>
+                        <div className="hidden sm:block">
+                            <span className="text-white font-black text-lg leading-none block">FESTICO</span>
+                            <span className="text-slate-500 text-xs">Festival International</span>
+                        </div>
+                    </Link>
+
+                    {/* Desktop links */}
+                    <nav className="hidden md:flex items-center gap-1">
+                        <a
+                            href="https://www.facebook.com/Festico237"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-4 py-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-xl transition-all text-sm font-medium flex items-center gap-2"
+                        >
+                            <span>📘</span> Facebook
+                        </a>
+                        <a
+                            href="mailto:festico237@gmail.com"
+                            className="px-4 py-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-xl transition-all text-sm font-medium flex items-center gap-2"
+                        >
+                            <span>✉️</span> Contact
+                        </a>
+                        <a
+                            href="tel:+237677867557"
+                            className="ml-2 bg-amber-400 hover:bg-amber-300 text-black font-bold px-4 py-2 rounded-xl transition-all text-sm flex items-center gap-2 shadow-lg shadow-amber-500/20"
+                        >
+                            <span>📞</span> Nous appeler
+                        </a>
+                    </nav>
 
                     {/* Mobile menu button */}
-                    <div className="md:hidden flex items-center">
-                        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-300 hover:text-white focus:outline-none">
-                            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                        </button>
-                    </div>
+                    <button
+                        className="md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-all"
+                        onClick={() => setMobileOpen(!mobileOpen)}
+                        aria-label="Menu"
+                    >
+                        {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+                    </button>
                 </div>
             </div>
 
-            {/* Mobile Menu Panel */}
-            {isMobileMenuOpen && (
-                <div className="md:hidden bg-[#09090b] border-b border-slate-800 px-4 pt-2 pb-6 space-y-4 shadow-2xl">
-                    <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-amber-500 hover:bg-slate-900 rounded-lg">Accueil</Link>
-                    <Link href="/evenements" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-amber-500 hover:bg-slate-900 rounded-lg">Événements</Link>
-                    {user ? (
-                        <>
-                            <Link href="/billets" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-amber-500 hover:bg-slate-900 rounded-lg">
-                                <span className="flex items-center gap-2"><Ticket size={18} /> Mon Espace</span>
-                            </Link>
-                            <button onClick={() => { setIsMobileMenuOpen(false); handleLogout(); }} className="w-full text-left px-3 py-2 text-base font-medium text-red-500 hover:bg-slate-900 rounded-lg flex items-center gap-2">
-                                <LogOut size={18} /> Déconnexion
-                            </button>
-                        </>
-                    ) : (
-                        <div className="pt-4 flex flex-col gap-3 border-t border-slate-800">
-                            <Link href="/auth/login" onClick={() => setIsMobileMenuOpen(false)} className="block w-full text-center px-4 py-3 text-base font-medium text-slate-300 border border-slate-700 hover:bg-slate-800 rounded-xl">
-                                Connexion
-                            </Link>
-                            <Link href="/auth/signup" onClick={() => setIsMobileMenuOpen(false)} className="block w-full text-center px-4 py-3 text-base font-bold text-black bg-amber-500 hover:bg-amber-400 rounded-xl shadow-lg shadow-amber-500/20">
-                                Inscription
-                            </Link>
-                        </div>
-                    )}
+            {/* Mobile menu */}
+            {mobileOpen && (
+                <div className="md:hidden border-t border-slate-800 bg-[#09090b] px-4 py-4 space-y-2">
+                    <a
+                        href="https://www.facebook.com/Festico237"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-slate-900 transition-all"
+                        onClick={() => setMobileOpen(false)}
+                    >
+                        <span>📘</span> Facebook
+                    </a>
+                    <a
+                        href="mailto:festico237@gmail.com"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-slate-900 transition-all"
+                        onClick={() => setMobileOpen(false)}
+                    >
+                        <span>✉️</span> Contact par email
+                    </a>
+                    <a
+                        href="tel:+237677867557"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-400/10 text-amber-400 font-bold border border-amber-400/20 hover:bg-amber-400 hover:text-black transition-all"
+                        onClick={() => setMobileOpen(false)}
+                    >
+                        <span>📞</span> (+237) 677 86 75 57
+                    </a>
                 </div>
             )}
-        </nav>
+        </header>
     );
 }
