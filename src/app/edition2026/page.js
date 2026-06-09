@@ -1,69 +1,83 @@
-import { EDITION_INFO, ACTIVITES } from '@/data/festicoData';
+'use client';
+
+import { useState } from 'react';
+
+// All photos from the '14 édition' folder in /public
+const EDITION_PHOTOS = [
+    "/14 édition/IMG-20260604-WA0052.jpg",
+    "/14 édition/IMG-20260609-WA0047.jpg",
+    "/14 édition/IMG-20260609-WA0060.jpg",
+    "/14 édition/IMG-20260609-WA0061.jpg",
+    "/14 édition/IMG-20260609-WA0063.jpg",
+    "/14 édition/IMG-20260609-WA0068.jpg",
+    "/14 édition/IMG-20260609-WA0104.jpg",
+    "/14 édition/IMG-20260609-WA0105.jpg",
+    "/14 édition/IMG-20260609-WA0106.jpg",
+    "/14 édition/IMG-20260609-WA0107.jpg",
+    "/14 édition/IMG-20260609-WA0108.jpg",
+    "/14 édition/IMG-20260609-WA0109.jpg",
+    "/14 édition/IMG-20260609-WA0111.jpg",
+    "/14 édition/IMG-20260609-WA0112.jpg",
+];
 
 export default function Edition2026Page() {
+    const [current, setCurrent] = useState(0);
+
+    const prev = () => setCurrent((c) => (c - 1 + EDITION_PHOTOS.length) % EDITION_PHOTOS.length);
+    const next = () => setCurrent((c) => (c + 1) % EDITION_PHOTOS.length);
+
     return (
-        <div className="max-w-5xl mx-auto px-4 py-16 space-y-20">
-            {/* HEADER */}
-            <div className="text-center">
-                <div className="inline-block mb-4 px-6 py-2 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 font-black tracking-widest uppercase">
-                    🎭 14e Édition - 2026
-                </div>
-                <h1 className="text-4xl md:text-6xl font-black text-white mb-6">FESTICO 2026</h1>
-                <p className="text-amber-400 text-xl font-bold italic max-w-2xl mx-auto">
-                    &ldquo;{EDITION_INFO.slogan}&rdquo;
-                </p>
+        <div className="min-h-screen bg-[#09090b] flex flex-col items-center justify-center p-4">
+
+            <div className="text-center mb-8">
+                <h1 className="text-3xl md:text-5xl font-black text-amber-400 uppercase tracking-widest mb-4">
+                    La 14e Édition
+                </h1>
+                <p className="text-slate-400 text-lg">Parcourez notre dossier de présentation officiel ⬇️</p>
             </div>
 
-            {/* FICHE D'IDENTITÉ */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-[#18181b] border-l-4 border-amber-400 p-8 rounded-r-3xl shadow-lg">
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-2">📅 Dates prévues</p>
-                    <p className="text-white text-2xl font-black">{EDITION_INFO.dates}</p>
+            {/* DOCUMENT VIEWER */}
+            <div className="relative w-full max-w-4xl bg-black border-4 border-slate-800 rounded-3xl overflow-hidden shadow-2xl shadow-amber-500/10">
+
+                <div className="aspect-[3/4] md:aspect-[16/9] relative flex items-center justify-center">
+                    <img
+                        src={EDITION_PHOTOS[current]}
+                        alt={`Slide ${current + 1}`}
+                        className="w-full h-full object-contain"
+                    />
                 </div>
 
-                <div className="bg-[#18181b] border-l-4 border-emerald-400 p-8 rounded-r-3xl shadow-lg">
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-2">📍 Lieu</p>
-                    <p className="text-white text-2xl font-black">{EDITION_INFO.lieu}</p>
+                {/* NAVIGATION CONTROLS */}
+                <div className="absolute inset-y-0 left-0 w-20 flex items-center justify-center bg-gradient-to-r from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity">
+                    <button onClick={prev} className="bg-amber-400 hover:bg-amber-300 text-black p-3 rounded-full text-2xl shadow-lg transition-transform hover:scale-110">
+                        ←
+                    </button>
                 </div>
 
-                <div className="bg-[#18181b] border-l-4 border-sky-400 p-8 rounded-r-3xl shadow-lg md:col-span-2">
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-3">🎟 Affluence attendue</p>
-                    <div className="flex items-center gap-6">
-                        <span className="text-6xl text-sky-400">👥</span>
-                        <p className="text-white text-4xl font-black">{EDITION_INFO.affluence}</p>
-                    </div>
+                <div className="absolute inset-y-0 right-0 w-20 flex items-center justify-center bg-gradient-to-l from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity">
+                    <button onClick={next} className="bg-amber-400 hover:bg-amber-300 text-black p-3 rounded-full text-2xl shadow-lg transition-transform hover:scale-110">
+                        →
+                    </button>
                 </div>
 
-                <div className="bg-[#18181b] border-l-4 border-violet-400 p-8 rounded-r-3xl shadow-lg md:col-span-2">
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-3">🎯 Thème Principal</p>
-                    <p className="text-white text-2xl md:text-3xl font-black leading-snug text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
-                        {EDITION_INFO.theme}
-                    </p>
-                </div>
-            </div>
-
-            {/* ACTIVITES PREVUES */}
-            <div>
-                <h2 className="text-3xl font-black text-white mb-10 text-center">Au Programme</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {ACTIVITES.map((a, i) => (
-                        <div key={i} className="flex items-center gap-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:scale-105 transition-transform group">
-                            <div className="w-16 h-16 bg-slate-800 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-amber-400/20 transition-colors">
-                                <span className="text-4xl">{a.icon}</span>
-                            </div>
-                            <p className="text-slate-200 font-bold text-lg">{a.titre}</p>
-                        </div>
-                    ))}
+                {/* PAGINATION BOTTOM BAR */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-6 py-2 rounded-full border border-slate-700 text-amber-400 font-bold whitespace-nowrap">
+                    Slide {current + 1} / {EDITION_PHOTOS.length}
                 </div>
             </div>
 
-            {/* CALL TO ACTION */}
-            <div className="text-center pt-10 border-t border-slate-800 mt-10">
-                <p className="text-slate-400 mb-6">Restez connectés, le programme détaillé sera dévoilé prochainement.</p>
-                <a href="/contacts" className="inline-block bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-amber-400 transition-colors">
-                    Nous contacter pour des infos
-                </a>
+            <div className="flex flex-wrap justify-center gap-2 mt-8 max-w-3xl">
+                {EDITION_PHOTOS.map((_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setCurrent(i)}
+                        className={`w-14 h-14 md:w-20 md:h-20 rounded-xl border-2 overflow-hidden transition-all ${current === i ? 'border-amber-400 opacity-100 scale-110' : 'border-slate-800 opacity-50 hover:opacity-80'}`}
+                    >
+                        <img src={EDITION_PHOTOS[i]} alt="thumb" className="w-full h-full object-cover" />
+                    </button>
+                ))}
             </div>
+
         </div>
     );
 }

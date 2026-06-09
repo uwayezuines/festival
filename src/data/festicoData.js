@@ -58,27 +58,27 @@ export const ESSENCE_ITEMS = [
     {
         question: 'OÙ ?',
         icon: '📍',
-        answer: "La ville de Yaoundé a été choisie pour son positionnement géographique et stratégique, ses nombreux espaces verts, sa population dense/multiculturelle et ses sites touristiques.",
+        answer: "Vu sa position géographique et stratégique, à ses nombreux espaces verts, à sa population dense/multiculturelle et à ses nombreux sites touristiques ; la ville de Yaoundé a été choisie par les organisateurs pour abriter les éditions du FESTICO.",
     },
     {
         question: 'POUR QUI ?',
         icon: '👥',
-        answer: "Dédié aux populations, aux cinéastes, aux humoristes, aux acteurs du secteur culturel et aux amateurs du rire sans distinction de race, de sexe, d'âge, de religion et de rang social. Les circuits de diffusion de films et spectacles comiques y sont différents des circuits habituels.",
+        answer: "Le FESTICO se dédie aux populations, aux cinéastes, aux humoristes, aux acteurs du secteur culturel et aux amateurs du rire et de la bonne humeur sans distinction de race, de sexe, d'âge, de religion et de rang social. Ceci en proposant des projections des films et spectacles comiques différents des circuits de diffusion habituels.",
     },
     {
         question: 'PAR QUI ?',
         icon: '🏛️',
-        answer: "L'association FESTICO, rejointe par des mécènes aux parcours multiples et activités diverses.",
+        answer: "L'association FESTICO, qui s'est vue rejointe par des mécènes aux parcours multiples et activités diverses.",
     },
     {
         question: 'COMMENT ?',
         icon: '⚙️',
-        answer: "Un challenge relevé grâce à une équipe motivée et aux soutiens du gouvernement camerounais ainsi que d'institutions nationales et internationales pour reconstruire la bonne humeur.",
+        answer: "L'organisation d'un festival international est un challenge. Avec une équipe motivée, les soutiens du gouvernement camerounais, de certaines institutions nationales et internationales, nous démontrons la pertinence et l'apport d'un tel évènement dans la reconstruction de la bonne humeur et du bon sens qui sont ici des éléments indispensables pour le développement social.",
     },
     {
         question: 'POURQUOI ?',
         icon: '❓',
-        answer: "Assainir une atmosphère tendue et surtout valoriser le genre comique qui semble être effacé dans les chaînes de production et diffusion cinématographiques.",
+        answer: "Assainir une atmosphère tendue et surtout valoriser le genre comique qui semble être effacé dans les chaines de production et diffusion cinématographiques.",
     },
 ];
 
@@ -130,11 +130,18 @@ export const BIENFAITS = [
 
 // === ONGLET 4 : PARTENAIRES ===
 export const ARGUMENTS_PARTENARIATS = [
-    "Associer son image à une initiative populaire et unique",
-    "Permettre d'oublier le stress quotidien",
-    "Contribuer à la dynamique culturelle africaine",
-    "Profiter de places privilégiées",
-    "Contribuer à la formation des jeunes locaux et freiner l'exode",
+    "VOUS associez votre image au soutien d'une initiative populaire, rayonnante, innovatrice et unique en son genre.",
+    "VOUS écrivez une histoire entre vous et notre festival pour un partenariat durable et bénéfique. VOUS permettez aux populations d'oublier le stress quotidien et autres frustrations liées aux aléas de la vie.",
+    "VOUS contribuez à l'émergence, à la promotion et à la découverte des jeunes artistes humoristes et cinéastes d'ici et d'ailleurs.",
+    "VOUS participez à la dynamique culturelle de l'Afrique et à la promotion de son patrimoine local.",
+    "VOUS montrez aux yeux du monde que la réussite collective est possible sur le continent Africain.",
+    "VOUS étendez votre réputation et celle de votre institution au secteur de l'événementiel, de l'art et de la culture.",
+    "VOUS pourriez assister à toutes les activités de la 14e édition du FESTICO en occupant des places privilégiées.",
+    "VOUS ferez partie des premiers soutiens d'un projet solide, authentique qui deviendra sans doute grand.",
+    "VOUS contribuez à la formation / spécialisation des jeunes locaux qui effectuent des stages au sein du festival / association FESTICO.",
+    "VOUS communiquez auprès de notre public très grand, très joyeux, multiculturel et intergénérationnel.",
+    "VOUS empêchez d'une manière ou d'une autre la fuite de la jeunesse africaine vers d'autres cieux.",
+    "VOUS pourriez avoir un espace dans notre catalogue officiel qui sera distribué via internet à notre très vaste réseau qui s'étend à travers le monde.",
 ];
 
 export const PARTENAIRES = [
