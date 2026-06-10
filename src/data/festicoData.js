@@ -3,17 +3,17 @@
 // === NAVIGATION ===
 export const TABS = [
     { id: 'accueil', href: '/accueil', label: 'Accueil', emoji: '🏠' },
-    { id: 'essence', href: '/essence', label: "L'Essence", emoji: '💡' },
-    { id: 'bienfaits', href: '/bienfaits', label: 'Bienfaits', emoji: '😄' },
-    { id: 'partenaires', href: '/partenaires', label: 'Partenaires', emoji: '🤝' },
+    {
+        id: 'essence', href: '/essence', label: 'QUAND ? OÙ ? POUR QUI ? ', emoji: '💡'
+    },
+    { id: 'bienfaits', href: '/bienfaits', label: 'Vertus du Rire', emoji: '😄' },
+    { id: 'partenaires', href: '/partenaires', label: 'Pourquoi devenir Partenaires', emoji: '🤝' },
     { id: 'contacts', href: '/contacts', label: 'Contacts', emoji: '📞' },
     { id: 'edition2026', href: '/edition2026', label: '14e Édition', emoji: '🎭' },
 ];
 
 // === ONGLET 1 : ACCUEIL ===
-export const TEXTE_ACCUEIL = `FESTICO est le Festival International des Images Comiques. Mis sur pied par un groupe de jeunes philanthropes passionnés de culture et de cinéma, ce festival unique brise la frontière parfois artificielle qui sépare les professionnels du septième art du reste des spectateurs. C'est un événement fédérateur, à la fois culturel, cinématographique, humanitaire et thérapeutique, entièrement axé autour du rire et de la bonne humeur.
-
-Face aux crises du monde actuel, FESTICO place l'humain au centre en se rassemblant pour partager des moments de légèreté et de joie. À ce jour, il s'impose comme la seule plateforme d'envergure dédiée exclusivement au genre humoristique en Afrique au sud du Sahara.`;
+export const TEXTE_ACCUEIL = `Le Festival International des Images Comiques (FESTICO) a été mis sur pied par un groupe de jeunes philanthropes passionnés de la culture en général et du Cinéma en particulier.`;
 
 export const YOUTUBE_EMBED_URL = 'https://www.youtube.com/embed/CxoNxjQTUR4';
 

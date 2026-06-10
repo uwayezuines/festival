@@ -16,15 +16,6 @@ const BUBBLE_COLORS = [
     'bg-[#c4a882] text-[#1a0a00]',       // tan
 ];
 
-const LOGOS = [
-    { name: "Ministère des Arts & de la Culture", icon: "🏛️", bg: "from-blue-800/40 to-blue-900/20" },
-    { name: "Fondation Canal+", icon: "📺", bg: "from-green-800/40 to-green-900/20" },
-    { name: "Institut Français", icon: "🇫🇷", bg: "from-red-800/40 to-red-900/20" },
-    { name: "MTN Cameroon", icon: "🟡", bg: "from-yellow-700/40 to-yellow-900/20" },
-    { name: "Orange Cameroun", icon: "🟠", bg: "from-orange-700/40 to-orange-900/20" },
-    { name: "TV5 Monde", icon: "📡", bg: "from-sky-800/40 to-sky-900/20" },
-];
-
 export default function PartenairesPage() {
     return (
         <div className="min-h-screen bg-[#09090b]">
@@ -35,9 +26,6 @@ export default function PartenairesPage() {
                     <h1 className="text-4xl md:text-6xl font-black text-amber-400 mb-4 uppercase tracking-wider drop-shadow-[0_2px_20px_rgba(245,158,11,0.5)]">
                         Pourquoi Devenir Partenaire ?
                     </h1>
-                    <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-                        Associez votre image à l&apos;événement culturel et humoristique numéro 1 d&apos;Afrique centrale.
-                    </p>
                 </div>
             </div>
 
@@ -54,26 +42,11 @@ export default function PartenairesPage() {
                     ))}
                 </div>
 
-                {/* PARTENAIRES LOGOS */}
-                <div className="mt-24">
-                    <h2 className="text-center text-3xl font-black text-white mb-12 uppercase tracking-wider">
-                        Ils nous <span className="text-amber-400">font confiance</span>
-                    </h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                        {LOGOS.map((logo, i) => (
-                            <div key={i} className={`bg-gradient-to-br ${logo.bg} border border-slate-800 rounded-2xl p-8 flex flex-col items-center justify-center text-center hover:scale-105 hover:border-amber-400/30 transition-all group cursor-pointer`}>
-                                <span className="text-5xl mb-4 group-hover:scale-110 transition-transform">{logo.icon}</span>
-                                <p className="text-slate-200 font-bold text-base leading-snug">{logo.name}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* CTA */}
+                {/* SECTION COMMENT DEVENIR PARTENAIRE (CTA) */}
                 <div className="mt-20 bg-gradient-to-br from-amber-400/15 to-orange-500/5 border border-amber-400/25 rounded-3xl p-12 text-center">
-                    <h3 className="text-3xl font-black text-white mb-4">Rejoignez l&apos;aventure FESTICO 2026 !</h3>
+                    <h3 className="text-3xl font-black text-white mb-4">Comment devenir partenaire ?</h3>
                     <p className="text-slate-400 mb-8 max-w-xl mx-auto text-lg">
-                        Contactez notre équipe pour découvrir nos packs de partenariat et opportunités de visibilité.
+                        Contactez notre équipe pour découvrir nos packs de partenariat et opportunités de visibilité pour la 14e édition.
                     </p>
                     <a href="/contacts" className="inline-block bg-amber-400 hover:bg-amber-300 text-black font-black py-3 px-10 rounded-full transition-all shadow-lg shadow-amber-500/20 hover:-translate-y-1 hover:shadow-amber-500/40">
                         Devenir Partenaire →
